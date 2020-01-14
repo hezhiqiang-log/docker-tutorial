@@ -1,4 +1,3 @@
-# mattermost
 
 Slack 的开源替代品 [Mattermost](https://github.com/mattermost)，使用下面命令即可启动 Mattermost，并且可以直接使用。
 
@@ -34,7 +33,7 @@ docker run --name mattermost-preview \
 
 修改 mattermost 配置 `vim $HOME/_docker/mattermost/config/config.json`。
 
-```javascript
+```json
 "GitLabSettings": {
   "Enable": true,
   "Secret": "{mattermost-app-secret-from-gitlab}",
@@ -56,7 +55,7 @@ mattermost_external_url 'http://mattermost.example.com'
 gitlab_rails['mattermost_host'] = "https://mattermost.example.com"
 ```
 
-下面这部分配置在 `gitlab.rb` 中设置，之后**还需要**在 `mattermost` 系统中设置 [http://mattermost.example.com/admin\_console/authentication/gitlab](http://mattermost.example.com/admin_console/authentication/gitlab)
+下面这部分配置在 `gitlab.rb` 中设置，之后**还需要**在 `mattermost` 系统中设置 [http://mattermost.example.com/admin_console/authentication/gitlab](http://mattermost.example.com/admin_console/authentication/gitlab)
 
 ```bash
 mattermost['gitlab_enable'] = true
@@ -72,9 +71,8 @@ mattermost['gitlab_user_api_endpoint'] = "http://gitlab.example.com/api/v4/user"
 
 在配置 `vim $HOME/_docker/mattermost/config/config.json`，这个目录是你挂载出来的配置目录文件，容器中实际目录 `/mm/mattermost/config`，修改下面内容。
 
-```javascript
+```json
 "ServiceSettings": {
   "SiteURL": "http://mattermost.example.com",
 }
 ```
-

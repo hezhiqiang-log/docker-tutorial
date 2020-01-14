@@ -1,4 +1,3 @@
-# harbor
 
 [Harbor](https://goharbor.io/) 是 `VMware` 公司开源了企业级 `Registry` 项目, 其的目标是帮助用户迅速搭建一个企业级的 `Docker registry` 服务。
 
@@ -8,9 +7,9 @@ Github: [goharbor/harbor](https://github.com/goharbor/harbor)，官方[预览示
 
 对硬件需求
 
-> CPU =&gt; 最小 2CPU/4CPU\(首选\)  
-> Mem =&gt; 最小 4GB/8GB\(首选\)  
-> Disk =&gt; 最小 40GB/160G\(首选\)
+> CPU  => 最小 2CPU/4CPU(首选)  
+> Mem  => 最小 4GB/8GB(首选)  
+> Disk => 最小 40GB/160G(首选)  
 
 ## 下载安装包
 
@@ -92,7 +91,7 @@ $ prepare
 $ docker-compose up -d
 ```
 
-通过 [http://192.168.188.222](http://192.168.188.222) 就可以访问 Harbour 服务了
+通过 http://192.168.188.222 就可以访问 Harbour 服务了
 
 ## 配置修改
 
@@ -116,7 +115,7 @@ proxy:
 
 修改 `common/templates/registry/config.yml` 文件
 
-```text
+```
 # vim common/templates/registry/config.yml
 auth:
   token:
@@ -126,7 +125,7 @@ auth:
 service: harbor-registry
 ```
 
-## 使用 harbor
+## 使用 harbor 
 
 ```bash
 # 镜像推送
@@ -141,7 +140,7 @@ docker rmi -f 192.168.188.222:8070/library/nginx:latest
 
 若推送镜像报以下错误:
 
-> Error response from daemon: Get [https://192.168.188.222:8070/v1/users/](https://192.168.188.222:8070/v1/users/): http: server gave HTTP response to HTTPS client
+> Error response from daemon: Get https://192.168.188.222:8070/v1/users/: http: server gave HTTP response to HTTPS client
 
 原因为，`docker` 默认使用的是 `https` 协议，而搭建的 `Harbor` 是 `http` 提供服务的，所以要配置可信任。PS：如果 `Harbor` 是 `https` 的就不会报该错误。
 
@@ -164,7 +163,7 @@ ExecStart=/usr/bin/dockerd --insecure-registry=192.168.188.222:8070
 }
 ```
 
-```javascript
+```json
 {
   "insecure-registries" : [
     "docker.google.com"
@@ -175,4 +174,3 @@ ExecStart=/usr/bin/dockerd --insecure-registry=192.168.188.222:8070
 ```
 
 客户机docker启动时候带上 `--insecure-registry=docker.xxx.com` 强制 `docker login` 走 `http` 的 `80` 端口，就可以正常 `push` 了
-
