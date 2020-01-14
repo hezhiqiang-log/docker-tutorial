@@ -1,10 +1,8 @@
-<p align="center">
-  <a href="http://nginx.org/">
-    <img width="210" src="https://raw.githubusercontent.com/jaywcjlove/nginx-tutorial/master/nginx.svg?sanitize=true" />
-  </a>
-</p>
+# nginx
 
-Nginx 是一款面向性能设计的 HTTP 服务器，能反向代理 HTTP，HTTPS 和邮件相关(SMTP，POP3，IMAP)的协议链接。并且提供了负载均衡以及 HTTP 缓存。它的设计充分使用异步事件模型，削减上下文调度的开销，提高服务器并发能力。采用了模块化设计，提供了丰富模块的第三方模块。
+ [![](https://raw.githubusercontent.com/jaywcjlove/nginx-tutorial/master/nginx.svg?sanitize=true)](http://nginx.org/)
+
+Nginx 是一款面向性能设计的 HTTP 服务器，能反向代理 HTTP，HTTPS 和邮件相关\(SMTP，POP3，IMAP\)的协议链接。并且提供了负载均衡以及 HTTP 缓存。它的设计充分使用异步事件模型，削减上下文调度的开销，提高服务器并发能力。采用了模块化设计，提供了丰富模块的第三方模块。
 
 所以关于 Nginx，有这些标签：「异步」「事件」「模块化」「高性能」「高并发」「反向代理」「负载均衡」
 
@@ -49,7 +47,7 @@ docker run --name my-nginx -d -p 8080:80 nginx
 
 查看容器运行日志
 
-```
+```text
 docker logs my-nginx
 ```
 
@@ -68,9 +66,9 @@ docker run --name my-nginx \
 
 `-v` 参数语法为 `-v host dir:container dir[:ro|rw]`
 
-- --name 为容器取一个名字
-- -p 参数语法为 `-p host port:container port`; -p 8080:80 将主机上的8080端口绑定到容器上的80端口，因此在主机中访问8080端口时其实就是访问 nginx 容器的80端口
-- -d 后台运行容器
+* --name 为容器取一个名字
+* -p 参数语法为 `-p host port:container port`; -p 8080:80 将主机上的8080端口绑定到容器上的80端口，因此在主机中访问8080端口时其实就是访问 nginx 容器的80端口
+* -d 后台运行容器
 
 ## 运行容器示例二
 
@@ -106,15 +104,15 @@ docker run -d --name webserver  \
 docker exec -it webserver /bin/bash
 ```
 
-- **--rm**：容器停止运行后，自动删除容器文件
-- **-d**：在后台运行
-- **-p 802:80**：将容器的 `80` 端口映射到主机的 `802` 端口
-- **--name webserver**：将容器命名为 `webserver`
-- **-v $HOME/docker/nginx/html:/usr/share/nginx/html**：将主机中当前目录下的 `html` 挂载到容器的 `/html` 
-- **-v $HOME/docker/nginx/conf.d:/etc/nginx/conf.d**：将主机中当前目录下的 `nginx` 配置，挂载到容器的 `/etc/nginx/conf.d`
-- **-v $HOME/docker/nginx/logs:/wwwlogs**：将主机中当前目录下的logs挂载到容器的/wwwlogs
+* **--rm**：容器停止运行后，自动删除容器文件
+* **-d**：在后台运行
+* **-p 802:80**：将容器的 `80` 端口映射到主机的 `802` 端口
+* **--name webserver**：将容器命名为 `webserver`
+* **-v $HOME/docker/nginx/html:/usr/share/nginx/html**：将主机中当前目录下的 `html` 挂载到容器的 `/html` 
+* **-v $HOME/docker/nginx/conf.d:/etc/nginx/conf.d**：将主机中当前目录下的 `nginx` 配置，挂载到容器的 `/etc/nginx/conf.d`
+* **-v $HOME/docker/nginx/logs:/wwwlogs**：将主机中当前目录下的logs挂载到容器的/wwwlogs
 
-默认挂载的路径权限为读写。如果指定为只读可以用：ro   
+默认挂载的路径权限为读写。如果指定为只读可以用：ro  
 重载 nginx 配置
 
 ```bash
@@ -123,4 +121,6 @@ docker exec -it webserver nginx -t
 # 重新加载配置
 docker exec -it webserver nginx -s reload
 ```
+
 注意：⚠️ webserver 可以是 `容器名称` 或者 `容器ID`
+

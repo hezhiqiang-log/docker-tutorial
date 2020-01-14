@@ -1,6 +1,6 @@
-Docker Compose
----
+# docker-compose
 
+## Docker Compose
 
 `docker-compose` 是用来做 `docker` 的多容器控制，这个工具是用于 docker 自动化的东西，将多个 docker 容器的操作命令，简化成一条命令，自动完成配置中的容器启动。
 
@@ -24,11 +24,11 @@ docker-compose --version
 ```bash
 docker stack deploy --compose-file=docker-compose.yml my-name
 docker stack services my-name # 部署成功之后查看详情
-docker stack deploy	  # 部署新的堆栈或更新现有堆栈
-docker stack ls	      # 列出现有堆栈
-docker stack ps	      # 列出堆栈中的任务
-docker stack rm	      # 删除一个或多个堆栈
-docker stack services	# 列出堆栈中的服务
+docker stack deploy      # 部署新的堆栈或更新现有堆栈
+docker stack ls          # 列出现有堆栈
+docker stack ps          # 列出堆栈中的任务
+docker stack rm          # 删除一个或多个堆栈
+docker stack services    # 列出堆栈中的服务
 ```
 
 ## 卸载
@@ -37,3 +37,4 @@ docker stack services	# 列出堆栈中的服务
 sudo rm /usr/local/bin/docker-compose
 pip uninstall docker-compose
 ```
+

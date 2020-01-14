@@ -1,5 +1,4 @@
-部署企业内部聊天工具Rocket.Chat开源IM系统
----
+# 部署企业内部聊天工具Rocket.Chat开源IM系统
 
 Rocket.Chat 是特性最丰富的 Slack 开源替代品之一。
 
@@ -23,3 +22,4 @@ docker-compose up -d rocketchat
 # - ROCKETCHAT_USER 和 ROCKETCHAT_PASSWORD 在 hubot 部分然后启动 hubot：
 docker-compose up -d hubot
 ```
+

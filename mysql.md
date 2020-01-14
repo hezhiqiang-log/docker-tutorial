@@ -1,3 +1,4 @@
+# mysql
 
 ## 下载镜像
 
@@ -25,11 +26,11 @@ docker run --name mysql \
   -d mysql:5.7.23
 ```
 
-- `--name mysql`：容器名字为 `mysql`
-- `-p 3306:3306`：将容器的 3306 端口映射到主机的 3306 端口
-- `-v $HOME/_docker/mysql/conf.d`：将主机当前目录下的 `~/_docker/mysql/conf.d` 挂载到容器的 `/etc/mysql/conf.d`，这个是挂载配置目录
-- `-v $HOME/_docker/mysql/data`：将主机当前目录下的 data 目录挂载到容器的 `/var/lib/mysqs`，为数据文件存放路径
-- `-e MYSQL_ROOT_PASSWORD=123456`：初始化root用户的密码
+* `--name mysql`：容器名字为 `mysql`
+* `-p 3306:3306`：将容器的 3306 端口映射到主机的 3306 端口
+* `-v $HOME/_docker/mysql/conf.d`：将主机当前目录下的 `~/_docker/mysql/conf.d` 挂载到容器的 `/etc/mysql/conf.d`，这个是挂载配置目录
+* `-v $HOME/_docker/mysql/data`：将主机当前目录下的 data 目录挂载到容器的 `/var/lib/mysqs`，为数据文件存放路径
+* `-e MYSQL_ROOT_PASSWORD=123456`：初始化root用户的密码
 
 ## 查看日志
 
@@ -47,7 +48,7 @@ $ docker logs mysql
 
 ## 修改配置
 
-```ini
+```text
 # For advice on how to change settings please see
 # http://dev.mysql.com/doc/refman/5.7/en/server-configuration-defaults.html
 [client]
@@ -93,7 +94,7 @@ symbolic-links=0
 pid-file=/var/run/mysqld/mysqld.pid
 ```
 
-通过[容器名字]或者[容器 ID]来重启 MySQL，让配置生效。
+通过\[容器名字\]或者\[容器 ID\]来重启 MySQL，让配置生效。
 
 ```bash
 docker restart mysql
@@ -111,3 +112,4 @@ mysql -uroot -p
 show binary logs;
 show variables like '%server_id%';
 ```
+

@@ -1,4 +1,4 @@
-
+# elasticsearch
 
 ## ElasticSearch 6.4.2
 
@@ -31,7 +31,7 @@ docker run \
 
 **Linux**
 
-⚠️注意：vm_max_map_count 内核设置需要设置为至少262144以供生产使用。
+⚠️注意：vm\_max\_map\_count 内核设置需要设置为至少262144以供生产使用。
 
 应在 `/etc/sysctl.conf` 中永久设置 `vm_map_max_count` 设置：
 
@@ -124,7 +124,6 @@ Enter host password for user 'elastic':
 1472225929 15:38:49 docker-cluster green 2 2 4 2 0 0 0 0 - 100.0%
 ```
 
-
 ## 用户名密码
 
 默认用户名密码 `elastic/changeme`
@@ -137,7 +136,7 @@ curl -XPUT -u elastic 'http://localhost:9200/_xpack/security/user/kibana/_passwo
 
 ## 挂载配置
 
-创建自定义配置文件并将其挂载到映像的相应文件上。 例如，可以使用以下参数来完成使用 `docker run` 绑定安装custom_elasticsearch.yml：
+创建自定义配置文件并将其挂载到映像的相应文件上。 例如，可以使用以下参数来完成使用 `docker run` 绑定安装custom\_elasticsearch.yml：
 
 ```bash
 -v full_path_to/custom_elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
@@ -157,7 +156,7 @@ xpack.security.audit.enabled: true
 
 ## 定义镜像
 
-```dockerfile
+```text
 FROM docker.elastic.co/elasticsearch/elasticsearch:5.3.3
 ADD elasticsearch.yml /usr/share/elasticsearch/config/
 USER root
@@ -176,11 +175,12 @@ docker run <各种参数> bin/elasticsearch -Ecluster.name=mynewclustername
 
 ## 生产的一些经验
 
-- 镜像公开 `TCP` 端口 `9200` 和 `9300`。对于群集，建议使用 `--publish-all` 随机化已发布的端口，除非您为每个主机固定一个容器。
-- 使用 `ES_JAVA_OPTS` 环境变量来设置堆大小，例如使用 `16GB` 通过使用 `-e ES_JAVA_OPTS=-Xms16g -Xms16g"` 和 `dcker run` 来运行。 还建议为容器设置内存限制。
+* 镜像公开 `TCP` 端口 `9200` 和 `9300`。对于群集，建议使用 `--publish-all` 随机化已发布的端口，除非您为每个主机固定一个容器。
+* 使用 `ES_JAVA_OPTS` 环境变量来设置堆大小，例如使用 `16GB` 通过使用 `-e ES_JAVA_OPTS=-Xms16g -Xms16g"` 和 `dcker run` 来运行。 还建议为容器设置内存限制。
 
 ## 其它
 
-- [ElasticSearch 5.3 官方 Docker 安装教程](https://www.elastic.co/guide/en/elasticsearch/reference/5.3/docker.html)
-- [ElasticSearch 官方 Docker 安装教程](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
-- [Docker 镜像仓库](https://hub.docker.com/r/library/elasticsearch/)
+* [ElasticSearch 5.3 官方 Docker 安装教程](https://www.elastic.co/guide/en/elasticsearch/reference/5.3/docker.html)
+* [ElasticSearch 官方 Docker 安装教程](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
+* [Docker 镜像仓库](https://hub.docker.com/r/library/elasticsearch/)
+
