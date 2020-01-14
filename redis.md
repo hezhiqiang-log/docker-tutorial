@@ -1,3 +1,4 @@
+# redis
 
 ## 下载镜像
 
@@ -15,7 +16,7 @@ $ docker run -d --rm -p  6389:6379 --name redis2 redis:4.0.11 redis-server --app
 
 [Redis](https://hub.docker.com/_/redis/) 加载自己的配置文件，需要重新编译一个 `images`，通过复制官方[Redis 配置](https://github.com/antirez/redis/blob/3a27b3d0d85d56ecd758b56c6af477ae5ff08a76/redis.conf)。
 
-```dockerfile
+```text
 FROM redis:4.0.11
 RUN mkdir -p /etc/redis
 # 设置时区
@@ -64,6 +65,7 @@ vim ~/_docker/redis/redis.conf
 
 ## 重启容器让配置生效
 
-```
+```text
 docker restart redis2
 ```
+

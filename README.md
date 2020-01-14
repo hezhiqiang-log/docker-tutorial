@@ -1,12 +1,53 @@
-# Docker入门教程
 
-![](.gitbook/assets/logo.svg)
+<p align="center">
+<img width="130" align="center" src="img/logo.svg"/>
+</p>
+<h1 align="center">Docker入门教程</h1>
 
-#### 博客作者：联系请[点击](https://k8sadmin.info/lian-xi-zuo-zhe)，搬运不易，希望请作者喝咖啡，可以点击[联系博客作者](https://k8sadmin.info/lian-xi-zuo-zhe)
 
-Docker 是一个开源的应用容器引擎，而一个容器containers其实是一个虚拟化的独立的环境，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。
 
-* Docker 的局限性之一，它只能用在 64 位的操作系统上。
+Docker 是一个开源的应用容器引擎，而一个<ruby>容器<rt>containers</rt></ruby>其实是一个虚拟化的独立的环境，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。
+
+- Docker 的局限性之一，它只能用在 64 位的操作系统上。
+
+目录
+===
+
+<!-- TOC -->
+
+- [新版本安装](#新版本安装)
+- [旧版本安装](#旧版本安装)
+- [命令介绍](#命令介绍)
+- [服务管理](#服务管理)
+- [镜像管理](#镜像管理)
+  - [通过容器创建镜像](#通过容器创建镜像)
+  - [通过Dockerfile创建镜像](#通过dockerfile创建镜像)
+  - [发布自己的镜像](#发布自己的镜像)
+  - [镜像中安装软件](#镜像中安装软件)
+- [容器管理](#容器管理)
+  - [容器服务管理](#容器服务管理)
+  - [进入容器](#进入容器)
+- [文件拷贝](#文件拷贝)
+- [Docker私有仓库搭建](#docker私有仓库搭建)
+  - [`registry`](#registry)
+  - [`Harbor`](#harbor)
+- [使用Docker实战](#使用docker实战)
+  - [`Nginx`](#nginx)
+  - [`MySQL`](#mysql)
+  - [`Redis`](#redis)
+  - [`Elasticsearch`](#elasticsearch)
+  - [`Gitlab`](#gitlab)
+  - [`Rocket.Chat`](#rocketchat)
+  - [`Humpback`](#humpback)
+  - [`Seafile`](#seafile)
+  - [更多](#更多)
+- [卸载旧的版本](#卸载旧的版本)
+- [参考资料](#参考资料)
+  - [官方英文资源](#官方英文资源)
+  - [中文资源](#中文资源)
+  - [其它资源](#其它资源)
+
+<!-- /TOC -->
 
 Docker 从 `1.13` 版本之后采用时间线的方式作为版本号，分为社区版 `CE` 和企业版 `EE`，社区版是免费提供给个人开发者和小型团体使用的，企业版会提供额外的收费服务，比如经过官方测试认证过的基础设施、容器、插件等。
 
@@ -35,7 +76,7 @@ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/cen
 
 可选：启用 `edge` 和 `test` 存储库。 这些存储库包含在上面的 `docker.repo` 文件中，但默认情况下处于禁用状态。您可以将它们与稳定存储库一起启用。
 
-```text
+```
 $ sudo yum-config-manager --enable docker-ce-edge
 $ sudo yum-config-manager --enable docker-ce-test
 ```
@@ -193,10 +234,10 @@ docker commit -m="First Docker" -a="wcjiang" a6b0a6cfdacf wcjiang/nginx:v1.2.1
 
 上面命令参数说明：
 
-* `-m` 提交的描述信息
-* `-a` 指定镜像作者
-* `a6b0a6cfdacf` 记住这个是容器id，不是镜像id
-* `wcjiang/nginx:v1.2.1` 创建的目标镜像名
+- `-m` 提交的描述信息
+- `-a` 指定镜像作者
+- `a6b0a6cfdacf` 记住这个是容器id，不是镜像id
+- `wcjiang/nginx:v1.2.1` 创建的目标镜像名
 
 ### 通过Dockerfile创建镜像
 
@@ -216,7 +257,7 @@ npm-debug.log
 
 Dockerfile 文件内容
 
-```text
+```Dockerfile
 FROM node:8.4
 COPY . /app
 WORKDIR /app
@@ -224,11 +265,11 @@ RUN npm install --registry=https://registry.npm.taobao.org
 EXPOSE 3000
 ```
 
-* `FROM node:8.4`：该 `image` 文件继承官方的 `node image`，冒号表示标签，这里标签是`8.4`，即`8.4`版本的 `node`。
-* `COPY . /app`：将当前目录下的所有文件（除了 `.dockerignore` 排除的路径），都拷贝进入 `image` 文件的 `/app` 目录。
-* `WORKDIR /app`：指定接下来的工作路径为`/app`。
-* `RUN npm install`：在/app目录下，运行 `npm install` 命令安装依赖。注意，安装后所有的依赖，都将打包进入 `image` 文件。
-* `EXPOSE 3000`：将容器 `3000` 端口暴露出来， 允许外部连接这个端口。
+- `FROM node:8.4`：该 `image` 文件继承官方的 `node image`，冒号表示标签，这里标签是`8.4`，即`8.4`版本的 `node`。
+- `COPY . /app`：将当前目录下的所有文件（除了 `.dockerignore` 排除的路径），都拷贝进入 `image` 文件的 `/app` 目录。
+- `WORKDIR /app`：指定接下来的工作路径为`/app`。
+- `RUN npm install`：在/app目录下，运行 `npm install` 命令安装依赖。注意，安装后所有的依赖，都将打包进入 `image` 文件。
+- `EXPOSE 3000`：将容器 `3000` 端口暴露出来， 允许外部连接这个端口。
 
 有了 `Dockerfile` 文件以后，就可以使用 `docker image build` 命令创建 `image` 文件了。
 
@@ -249,13 +290,13 @@ $ docker image build -t koa-demo:0.0.1 .
 docker tag wcjiang/nginx:v1.2.1 wcjiang/nginx-test:lastest
 ```
 
-1. 登录docker
+3. 登录docker
 
-```text
+```
 docker login
 ```
 
-1. 上传`nginx-test`镜像
+4. 上传`nginx-test`镜像
 
 ```bash
 docker push wcjiang/nginx-test:lastest
@@ -343,7 +384,7 @@ docker rm new-nginx                 # 【删除】容器
 docker run -itd my-nginx /bin/bash
 ```
 
-1. 使用`docker ps`查看到该容器信息
+2. 使用`docker ps`查看到该容器信息
 
 ```bash
 docker ps
@@ -351,7 +392,7 @@ docker ps
 # 6bd0496da64f        nginx               "/bin/bash"         20 seconds ago      Up 18 seconds       80/tcp              high_shirley
 ```
 
-1. 使用`docker exec`命令进入一个已经在运行的容器
+3. 使用`docker exec`命令进入一个已经在运行的容器
 
 ```bash
 docker exec -it 6bd0496da64f /bin/bash
@@ -359,15 +400,16 @@ docker exec -it 6bd0496da64f /bin/bash
 
 通常有下面几种方式进入Docker的容器，推荐使用`exec`，使用`attach`一直进入失败。
 
-* 使用`docker attach`
-* 使用`SSH` [为什么不需要在 Docker 容器中运行 sshd](http://www.oschina.net/translate/why-you-dont-need-to-run-sshd-in-docker?cmp)
-* 使用`nsenter`进入Docker容器，[nsenter官方仓库](https://github.com/jpetazzo/nsenter)
-* 使用`docker exec`，在`1.3.*`之后提供了一个新的命令`exec`用于进入容器
+- 使用`docker attach`
+- 使用`SSH` [为什么不需要在 Docker 容器中运行 sshd](http://www.oschina.net/translate/why-you-dont-need-to-run-sshd-in-docker?cmp)
+- 使用`nsenter`进入Docker容器，[nsenter官方仓库](https://github.com/jpetazzo/nsenter)
+- 使用`docker exec`，在`1.3.*`之后提供了一个新的命令`exec`用于进入容器
 
 ## 文件拷贝
 
 从主机复制到容器 `sudo docker cp host_path containerID:container_path`  
 从容器复制到主机 `sudo docker cp containerID:container_path host_path`
+
 
 ## Docker私有仓库搭建
 
@@ -425,7 +467,7 @@ docker push 192.168.31.69:5000/test-nginx:1.13
 
 我们使用第二种方法，加入到不安全的仓库列表中，修改docker配置文件`vi /etc/docker/daemon.json` 添加 `insecure-registries`配置信息，如果 [daemon.json](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file) 文件不存在可以创建，关键配置项，将仓库将入到不安全的仓库列表中。
 
-```javascript
+```js
 {
   "insecure-registries":[ 
     "192.168.31.69:5000"
@@ -433,7 +475,7 @@ docker push 192.168.31.69:5000/test-nginx:1.13
 }
 ```
 
-> 如果是 macOS 可以通过 docker 客户端，`Preferences` =&gt; `Advanced` =&gt; `添加配置` =&gt; `Apply & Restart`，重启docker就可以了。
+>  如果是 macOS 可以通过 docker 客户端，`Preferences` => `Advanced` => `添加配置` => `Apply & Restart`，重启docker就可以了。  
 
 重启服务 `service docker restart`，默认情况下 push 是会报如下错误的：
 
@@ -450,7 +492,7 @@ docker push 192.168.99.100:7000/test-nginx:1.13
 ```bash
 setenforce 0  
 getenforce   
-# Permissive
+# Permissive  
 ```
 
 ```bash
@@ -463,7 +505,7 @@ docker container stop registry && docker container rm -v registry
 
 ### `Harbor`
 
-[部署 registry 管理工具 Harbor](harbor.md)
+[部署 registry 管理工具 Harbor](docker/harbor.md)
 
 ## 使用Docker实战
 
@@ -499,7 +541,7 @@ docker container stop registry && docker container rm -v registry
 --name=""               # 指定容器名字，后续可以通过名字进行容器管理，links特性需要使用名字  
 --net="bridge"          # 容器网络设置:
                             # bridge 使用docker daemon指定的网桥     
-                            # host     //容器使用主机的网络  
+                            # host 	//容器使用主机的网络  
                             # container:NAME_or_ID  >//使用其他容器的网路，共享IP和PORT等网络资源  
                             # none 容器使用自己的网络（类似--net=bridge），但是不进行配置 
 --privileged=false      # 指定容器是否为特权容器，特权容器拥有所有的capabilities  
@@ -513,27 +555,27 @@ docker container stop registry && docker container rm -v registry
 
 ### `Nginx`
 
-[在 docker 中部署 Nginx](nginx.md)
+[在 docker 中部署 Nginx](docker/nginx.md)
 
 ### `MySQL`
 
-[在 docker 中部署 MySQL](mysql.md)
+[在 docker 中部署 MySQL](docker/mysql.md)
 
 ### `Redis`
 
-[在 docker 中部署 Redis](redis.md)
+[在 docker 中部署 Redis](docker/redis.md)
 
 ### `Elasticsearch`
 
-[在 docker 中部署 Elasticsearch](elasticsearch.md)
+[在 docker 中部署 Elasticsearch](docker/elasticsearch.md)
 
 ### `Gitlab`
 
-[在 docker 中部署 Gitlab](gitlab.md)
+[在 docker 中部署 Gitlab](docker/gitlab.md)
 
 ### `Rocket.Chat`
 
-[在 docker 中部署 Gitlab](https://github.com/hezhiqiang-log/docker-tutorial/tree/806a9c549304a0ebe60d60441fd2f7e220d31895/docker/rocket.chat)
+[在 docker 中部署 Gitlab](docker/rocket.chat)
 
 ### `Humpback`
 
@@ -552,11 +594,11 @@ docker run -d --net=host --restart=always \
  humpbacks/humpback-web:1.0.0
 ```
 
-访问站点，打开浏览器输入：[http://192.168.99.100:7001](http://192.168.99.100:7001) ，默认账户：`admin` 密码：`123456`
+访问站点，打开浏览器输入：http://192.168.99.100:7001 ，默认账户：`admin` 密码：`123456`
 
 ### `Seafile`
 
-```text
+```
 docker run -d --name seafile \
   -e SEAFILE_SERVER_HOSTNAME=seafile.example.com \
   -v /opt/seafile-data:/shared \
@@ -564,7 +606,7 @@ docker run -d --name seafile \
   seafileltd/seafile:latest
 ```
 
-```text
+```
 docker run -d --name seafile \
   -e SEAFILE_SERVER_HOSTNAME=pan.showgold.com \
   -e SEAFILE_ADMIN_EMAIL=wcj@nihaosi.com \
@@ -576,7 +618,7 @@ docker run -d --name seafile \
 
 ### 更多
 
-[更多 docker 工具部署，在 docker 目录中](https://github.com/hezhiqiang-log/docker-tutorial/tree/806a9c549304a0ebe60d60441fd2f7e220d31895/docker/README.md)
+[更多 docker 工具部署，在 docker 目录中](docker/)
 
 ## 卸载旧的版本
 
@@ -599,32 +641,31 @@ $ sudo yum remove docker \
 
 ### 官方英文资源
 
-* Docker官网：[http://www.docker.com](http://www.docker.com)
-* Docker windows入门：[https://docs.docker.com/windows/](https://docs.docker.com/windows/)
-* Docker Linux 入门：[https://docs.docker.com/linux/](https://docs.docker.com/linux/)
-* Docker mac 入门：[https://docs.docker.com/mac/](https://docs.docker.com/mac/)
-* Docker 用户指引：[https://docs.docker.com/engine/userguide/](https://docs.docker.com/engine/userguide/)
-* Docker 官方博客：[http://blog.docker.com/](http://blog.docker.com/)
-* Docker Hub: [https://hub.docker.com/](https://hub.docker.com/)
-* Docker开源： [https://www.docker.com/open-source](https://www.docker.com/open-source)
+- Docker官网：http://www.docker.com
+- Docker windows入门：https://docs.docker.com/windows/
+- Docker Linux 入门：https://docs.docker.com/linux/
+- Docker mac 入门：https://docs.docker.com/mac/
+- Docker 用户指引：https://docs.docker.com/engine/userguide/
+- Docker 官方博客：http://blog.docker.com/
+- Docker Hub: https://hub.docker.com/
+- Docker开源： https://www.docker.com/open-source
 
 ### 中文资源
 
-* Docker中文网站：[http://www.docker.org.cn](http://www.docker.org.cn)
-* Docker中文文档：[http://www.dockerinfo.net/document](http://www.dockerinfo.net/document)
-* Docker安装手册：[http://www.docker.org.cn/book/install.html](http://www.docker.org.cn/book/install.html)
-* 一小时Docker教程 ：[https://blog.csphere.cn/archives/22](https://blog.csphere.cn/archives/22)
-* Docker中文指南：[http://www.widuu.com/chinese\_docker/index.html](http://www.widuu.com/chinese_docker/index.html)
+- Docker中文网站：http://www.docker.org.cn
+- Docker中文文档：http://www.dockerinfo.net/document
+- Docker安装手册：http://www.docker.org.cn/book/install.html
+- 一小时Docker教程 ：https://blog.csphere.cn/archives/22
+- Docker中文指南：http://www.widuu.com/chinese_docker/index.html
 
 ### 其它资源
 
-* [Docker 快速手册！](https://github.com/eon01/DockerCheatSheet)
-* [Docker 教程](http://www.runoob.com/docker/docker-tutorial.html)
-* [Docker 从入门到实践](https://www.gitbook.com/book/yeasy/docker_practice)
-* [MySQL Docker 单一机器上如何配置自动备份](http://blog.csdn.net/zhangchao19890805/article/details/52756865)
-* [使用Docker Compose管理多个容器](http://dockone.io/article/834)
-* [https://segmentfault.com/t/docker](https://segmentfault.com/t/docker)
-* [https://github.com/docker/docker](https://github.com/docker/docker)
-* [https://wiki.openstack.org/wiki/Docker](https://wiki.openstack.org/wiki/Docker)
-* [https://wiki.archlinux.org/index.php/Docker](https://wiki.archlinux.org/index.php/Docker)
-
+- [Docker 快速手册！](https://github.com/eon01/DockerCheatSheet)
+- [Docker 教程](http://www.runoob.com/docker/docker-tutorial.html)
+- [Docker 从入门到实践](https://www.gitbook.com/book/yeasy/docker_practice)
+- [MySQL Docker 单一机器上如何配置自动备份](http://blog.csdn.net/zhangchao19890805/article/details/52756865)
+- [使用Docker Compose管理多个容器](http://dockone.io/article/834)
+- https://segmentfault.com/t/docker
+- https://github.com/docker/docker
+- https://wiki.openstack.org/wiki/Docker
+- https://wiki.archlinux.org/index.php/Docker
