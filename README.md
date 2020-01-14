@@ -14,7 +14,7 @@ Docker 从 `1.13` 版本之后采用时间线的方式作为版本号，分为�
 
 下面教程运行在 `Centos` 中
 
-### 新版本安装
+## 新版本安装
 
 Docker 官方的安装教程，[在这里](https://docs.docker.com/install/linux/docker-ce/centos/)。
 
@@ -85,7 +85,7 @@ $ sudo systemctl start docker
 $ docker run hello-world
 ```
 
-### 旧版本安装
+## 旧版本安装
 
 ```bash
 yum install docker        # CentOS 中安装
@@ -115,7 +115,7 @@ docker version      # 通过查看版本，检查安装是否成功
 #  OS/Arch:         linux/amd64
 ```
 
-### 命令介绍
+## 命令介绍
 
 ```bash
 $ docker --help
@@ -152,7 +152,7 @@ $ docker --help
   unpause     恢复一个或多个容器内所有被暂停的进程
 ```
 
-### 服务管理
+## 服务管理
 
 ```bash
 service docker start       # 启动 docker 服务，守护进程
@@ -161,7 +161,7 @@ service docker status      # 查看 docker 服务状态
 chkconfig docker on        # 设置为开机启动
 ```
 
-### 镜像管理
+## 镜像管理
 
 镜像可以看做我们平时装系统的镜像，里面就是一个运行环境。
 
@@ -178,7 +178,7 @@ docker rmi $(docker images | grep none | awk '{print $3}' | sort -r)
 docker run -t -i nginx:latest /bin/bash
 ```
 
-#### 通过容器创建镜像
+### 通过容器创建镜像
 
 我们可以通过以下两种方式对镜像进行更改。
 
@@ -198,7 +198,7 @@ docker commit -m="First Docker" -a="wcjiang" a6b0a6cfdacf wcjiang/nginx:v1.2.1
 * `a6b0a6cfdacf` 记住这个是容器id，不是镜像id
 * `wcjiang/nginx:v1.2.1` 创建的目标镜像名
 
-#### 通过Dockerfile创建镜像
+### 通过Dockerfile创建镜像
 
 假设创建一个 node.js 镜像，首先在 node.js 项目根目录创建文件。
 
@@ -240,7 +240,7 @@ $ docker image build -t koa-demo:0.0.1 .
 
 上面命令，`-t` 参数用来指定 `image` 文件的名字，后面还可以用冒号指定标签。如果不指定，默认的标签就是 `latest`。注意后面有个 `.`，表示 Dockerfile 文件所在的路径为当前路径
 
-#### 发布自己的镜像
+### 发布自己的镜像
 
 1. 在[Docker](https://www.docker.com/) 注册账户，发布的镜像都在[这个页面里](https://cloud.docker.com/repository/list)展示
 2. 将上面做的镜像`nginx`，起个新的名字`nginx-test`
@@ -265,7 +265,7 @@ docker push wcjiang/nginx-test:lastest
 # lastest: digest: sha256:73ae804b2c60327d1269aa387cf782f664bc91da3180d10dbd49027d7adaa789 size: 736
 ```
 
-#### 镜像中安装软件
+### 镜像中安装软件
 
 通常情况下，使用docker官方镜像，如 mysql镜像，默认情况下镜像中啥软件也没有，通过下面命令安装你所需要的软件：
 
@@ -286,7 +286,7 @@ yum update
 yum install vim
 ```
 
-### 容器管理
+## 容器管理
 
 容器就像一个类的实例
 
@@ -319,7 +319,7 @@ docker inspect -f {{.State.Pid}} 44fc0f0582d9 # 获取id为 44fc0f0582d9 的PID�
 docker pull gitlab/gitlab-ce:11.2.3-ce.0
 ```
 
-#### 容器服务管理
+### 容器服务管理
 
 ```bash
 docker run -itd --name my-nginx2 nginx # 通过nginx镜像，【创建】容器名为 my-nginx2 的容器
@@ -335,7 +335,7 @@ docker rename my-nginx new-nginx    # 【重命名】容器
 docker rm new-nginx                 # 【删除】容器
 ```
 
-#### 进入容器
+### 进入容器
 
 1. 创建一个守护状态的Docker容器
 
@@ -364,12 +364,12 @@ docker exec -it 6bd0496da64f /bin/bash
 * 使用`nsenter`进入Docker容器，[nsenter官方仓库](https://github.com/jpetazzo/nsenter)
 * 使用`docker exec`，在`1.3.*`之后提供了一个新的命令`exec`用于进入容器
 
-### 文件拷贝
+## 文件拷贝
 
 从主机复制到容器 `sudo docker cp host_path containerID:container_path`  
 从容器复制到主机 `sudo docker cp containerID:container_path host_path`
 
-### Docker私有仓库搭建
+## Docker私有仓库搭建
 
 通过官方提供的私有仓库镜像`registry`来搭建私有仓库。通过 [humpback](https://humpback.github.io) 快速搭建轻量级的Docker容器云管理平台。关于仓库配置说明请参见[configuration.md](https://github.com/docker/distribution/blob/master/docs/configuration.md)
 
@@ -377,7 +377,7 @@ docker exec -it 6bd0496da64f /bin/bash
 
 除了 [Harbor](https://github.com/goharbor/harbor) 还有 [humpback](https://github.com/humpback/humpback) 和 [rancher](https://github.com/rancher/rancher)
 
-#### `registry`
+### `registry`
 
 ```bash
 docker pull registry:2.6.2
@@ -461,11 +461,11 @@ docker container stop registry && docker container rm -v registry
 # 自定义存储位置
 ```
 
-#### `Harbor`
+### `Harbor`
 
 [部署 registry 管理工具 Harbor](harbor.md)
 
-### 使用Docker实战
+## 使用Docker实战
 
 > ⚠文件挂载注意：docker 禁止用主机上不存在的文件挂载到 container 中已经存在的文件
 
@@ -511,31 +511,31 @@ docker container stop registry && docker container rm -v registry
 --sig-proxy=true        # 设置由代理接受并处理信号，但是SIGCHLD、SIGSTOP和SIGKILL不能被代理
 ```
 
-#### `Nginx`
+### `Nginx`
 
 [在 docker 中部署 Nginx](nginx.md)
 
-#### `MySQL`
+### `MySQL`
 
 [在 docker 中部署 MySQL](mysql.md)
 
-#### `Redis`
+### `Redis`
 
 [在 docker 中部署 Redis](redis.md)
 
-#### `Elasticsearch`
+### `Elasticsearch`
 
 [在 docker 中部署 Elasticsearch](elasticsearch.md)
 
-#### `Gitlab`
+### `Gitlab`
 
 [在 docker 中部署 Gitlab](gitlab.md)
 
-#### `Rocket.Chat`
+### `Rocket.Chat`
 
 [在 docker 中部署 Gitlab](https://github.com/hezhiqiang-log/docker-tutorial/tree/806a9c549304a0ebe60d60441fd2f7e220d31895/docker/rocket.chat)
 
-#### `Humpback`
+### `Humpback`
 
 首先创建放持久化数据文件夹，`mkdir -p /opt/app/humpback-web`，里面存放持久化数据文件，会存储站点管理和分组信息，启动后请妥善保存。
 
@@ -554,7 +554,7 @@ docker run -d --net=host --restart=always \
 
 访问站点，打开浏览器输入：[http://192.168.99.100:7001](http://192.168.99.100:7001) ，默认账户：`admin` 密码：`123456`
 
-#### `Seafile`
+### `Seafile`
 
 ```text
 docker run -d --name seafile \
@@ -574,11 +574,11 @@ docker run -d --name seafile \
   seafileltd/seafile:latest
 ```
 
-#### 更多
+### 更多
 
 [更多 docker 工具部署，在 docker 目录中](https://github.com/hezhiqiang-log/docker-tutorial/tree/806a9c549304a0ebe60d60441fd2f7e220d31895/docker/README.md)
 
-### 卸载旧的版本
+## 卸载旧的版本
 
 移除旧的版本
 
@@ -595,9 +595,9 @@ $ sudo yum remove docker \
     docker-engine
 ```
 
-### 参考资料
+## 参考资料
 
-#### 官方英文资源
+### 官方英文资源
 
 * Docker官网：[http://www.docker.com](http://www.docker.com)
 * Docker windows入门：[https://docs.docker.com/windows/](https://docs.docker.com/windows/)
@@ -608,7 +608,7 @@ $ sudo yum remove docker \
 * Docker Hub: [https://hub.docker.com/](https://hub.docker.com/)
 * Docker开源： [https://www.docker.com/open-source](https://www.docker.com/open-source)
 
-#### 中文资源
+### 中文资源
 
 * Docker中文网站：[http://www.docker.org.cn](http://www.docker.org.cn)
 * Docker中文文档：[http://www.dockerinfo.net/document](http://www.dockerinfo.net/document)
@@ -616,7 +616,7 @@ $ sudo yum remove docker \
 * 一小时Docker教程 ：[https://blog.csphere.cn/archives/22](https://blog.csphere.cn/archives/22)
 * Docker中文指南：[http://www.widuu.com/chinese\_docker/index.html](http://www.widuu.com/chinese_docker/index.html)
 
-#### 其它资源
+### 其它资源
 
 * [Docker 快速手册！](https://github.com/eon01/DockerCheatSheet)
 * [Docker 教程](http://www.runoob.com/docker/docker-tutorial.html)
