@@ -9,9 +9,9 @@ docker build -t wcjiang/seaweedfs . # 编译docker镜像
 docker push wcjiang/seaweedfs:latest
 docker-compose up # 使用docker-compose 执行新建容器组
 docker-compose start # 启动容器组
-docker-compose stop # 停止容器组
-docker-compose ps   # 查询容器组所有容器状态
-docker-compose down # 删除容器组
+docker-compose stop  # 停止容器组
+docker-compose ps    # 查询容器组所有容器状态
+docker-compose down  # 删除容器组
 ```
 
 ⚠️： `volume` 节点不可以被负载均衡，不然会出现上传错误。

@@ -1,6 +1,5 @@
-# gitlab
-
-## Docker 部署 Gitlab
+Docker 部署 Gitlab
+---
 
 在 Docker 中安装 Gitlab 教程，[官方文档](https://docs.gitlab.com/omnibus/docker/)，如果你想使用原生安装，教程在这里：[CentOS7安装维护Gitlab](https://github.com/jaywcjlove/handbook/blob/9adc40d9e684928ee68d3301afbd78eee7fe3816/CentOS/CentOS7%E5%AE%89%E8%A3%85%E7%BB%B4%E6%8A%A4Gitlab.md)
 
@@ -58,8 +57,8 @@ iptables -L -n
 docker exec -it gitlab update-permissions
 docker restart gitlab
 ```
-
 ## 容器手动备份
+
 
 ```bash
 # 第一种进行入容器执行命令的方法进行手工备份
@@ -70,13 +69,14 @@ gitlab-rake gitlab:backup:create   # 执行gitlab备份命令
 docker exec 容器名或容器id gitlab-rake gitlab:backup:create
 ```
 
+
 ### 自动备份
 
 通过在宿主机上使用 crontab 使用备份命令实现自动备份
 
 添加备份脚本 `vi ~/_docker/gitlab/gitlab.backup.sh`，将下面内容添加到脚本中，保存之后添加可执行权限 `chmod +x gitlab.backup.shs`
 
-```text
+```shell
 #!/bin/bash
 case "$1" in 
   start)
@@ -118,13 +118,13 @@ systemctl reload crond.service
 
 ```bash
 # /etc/gitlab/gitlab.rb 配置文件 修改下面这一行
-gitlab_rails['backup_keep_time'] = 604800
+gitlab_rails['backup_keep_time'] = 604800  
 ```
 
 重新加载gitlab配置文件
 
 ```bash
-docker exec 容器名或容器id gitlab-ctl reconfigure
+docker exec 容器名或容器id gitlab-ctl reconfigure  
 ```
 
 ### 容器管理
@@ -145,7 +145,8 @@ docker restart gitlab
 
 **第一步：** Docker [官方教程安装](https://docs.docker.com/compose/install/) Docker Compose。
 
-**第二步：** 创建 `docker-compose.yml` 文件，将下面配置复制到文件中 \(或者下载[官方示例](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/docker/docker-compose.yml)\):
+**第二步：** 创建 `docker-compose.yml` 文件，将下面配置复制到文件中 (或者下载[官方示例](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/docker/docker-compose.yml)):
+
 
 ```yaml
 web:
@@ -168,9 +169,11 @@ web:
 
 **第三步：** 确保与 `docker-compose.yml` 文件同一目录下运行 `docker-compose up -d` 启动 Gitlab
 
+
 ### 使用 Docker Swarm
 
 [官方教程](https://docs.gitlab.com/omnibus/docker/README.html#deploy-gitlab-in-a-docker-swarm) 创建 `docker-compose.yml` 文件
+
 
 ```yaml
 version: "3.6"
@@ -208,7 +211,7 @@ secrets:
 
 创建 `gitlab.rb` 文件
 
-```ruby
+```rb
 external_url 'https://my.domain.com/'
 gitlab_rails['initial_root_password'] = File.read('/run/secrets/gitlab_root_password')
 gitlab_rails['backup_keep_time'] = 604800 
@@ -217,7 +220,7 @@ gitlab_rails['time_zone'] = 'Asia/Shanghai' # 中国的东八区时间
 
 创建 `root_password.txt` 文件
 
-```text
+```
 MySuperSecretAndSecurePass0rd!
 ```
 
@@ -226,4 +229,3 @@ MySuperSecretAndSecurePass0rd!
 ```bash
 docker stack deploy --compose-file docker-compose.yml mystack
 ```
-
